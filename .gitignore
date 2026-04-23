@@ -110,3 +110,5 @@ logs/error.log
 # Database migrations
 migrations/*.sql
 seeds/*.sql
+
+*.test-db.js

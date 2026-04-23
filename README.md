@@ -2,7 +2,7 @@
 
 <div align="center">
 
-![EduTracker Logo](public/assets/images/favicon.svg)
+![EduTracker Logo](public/assets/images/edutrackerlogo.png)
 
 **A comprehensive platform for institutions to manage and students to track academic performance**
 
@@ -110,7 +110,7 @@ EduTracker is a full-stack web application designed to streamline academic perfo
 
 1. **Clone the repository**
 ```bash
-git clone https://github.com/yourusername/edutracker.git
+git clone https://github.com/nihalmohammad705-debug/EduTracker.git
 cd edutracker
 npm install
 
@@ -130,10 +130,10 @@ exit;
 # Import schema
 mysql -u root -p student_ap_tracker < database/schema.sql
 
-
 ## Start the application
 node server.js
 http://localhost:3000
+```
 
 📁 Project Structure
 ```text
@@ -196,6 +196,7 @@ edutracker/
 ```
 
 📚 API Documentation
+```text
 Authentication Endpoints
 Method	Endpoint	Description
 POST	/api/auth/student/login	Student login
@@ -233,8 +234,10 @@ GET	/api/analytics/dashboard	Get dashboard stats
 GET	/api/analytics/department-stats	Department-wise stats
 GET	/api/analytics/semester-performance	Semester trends
 GET	/api/analytics/top-students	Top performers
+``` 
 
 📖 Usage Guide
+```text
 Institution Portal
 1. Register as Institution
 Click "Institution Portal" on homepage
@@ -323,6 +326,7 @@ Internal results show:
 IA1 and IA2 marks
 
 Best of two (if configured)
+```
 
 📄 License
 This project is licensed under the MIT License - see the LICENSE file for details.

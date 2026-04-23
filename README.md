@@ -2,8 +2,6 @@
 
 <div align="center">
 
-![EduTracker Logo](public/assets/images/edutrackerlogo.png)
-
 **A comprehensive platform for institutions to manage and students to track academic performance**
 
 [![Node.js](https://img.shields.io/badge/Node.js-20.x-green.svg)](https://nodejs.org/)

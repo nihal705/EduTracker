@@ -1,0 +1,112 @@
+# Dependencies
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+package-lock.json
+yarn.lock
+
+# Environment Variables
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+.env.example
+
+# Database
+*.sqlite
+*.sqlite-journal
+*.db
+*.db-journal
+*.sql
+dump.sql
+backup.sql
+
+# Logs
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+lerna-debug.log*
+
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+*.swp
+*.swo
+
+# IDE files
+.vscode/
+.idea/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
+# Build files
+dist/
+build/
+out/
+*.css.map
+*.js.map
+
+# Testing
+coverage/
+.nyc_output/
+*.test.js
+*.spec.js
+
+# Uploads
+uploads/
+temp/
+tmp/
+
+# SSL Certificates
+*.pem
+*.crt
+*.key
+cert.pem
+key.pem
+
+# PM2
+pm2.json
+.pm2/
+
+# Environment & Config
+config.json
+config.local.json
+
+# Backup files
+*.bak
+*.backup
+*.old
+
+# Screenshots
+screenshots/
+*.png
+*.jpg
+*.jpeg
+*.gif
+
+# Certificate files
+*.cert
+*.p12
+
+# Project specific
+.DS_Store
+public/uploads/
+temp_uploads/
+logs/access.log
+logs/error.log
+
+# Database migrations
+migrations/*.sql
+seeds/*.sql

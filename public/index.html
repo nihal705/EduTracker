@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EduTracker - Student Academic Performance Tracker</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="css/style.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+    <!-- Favicon SVG -->
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg width='1024' height='1024' viewBox='0 0 1024 1024' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Crect width='1024' height='1024' fill='white'/%3E%3Cpath d='M512 756L312 656V456L512 556V756Z' fill='%23139385'/%3E%3Cpath d='M512 756L712 656V456L512 556V756Z' fill='%230D7F73'/%3E%3Cpath d='M712 656L512 556L312 656L512 756L712 656Z' fill='%2316AA9B'/%3E%3Cpath d='M167 472.5L512 300L857 472.5L512 645L167 472.5Z' stroke='%230D9488' stroke-width='40' stroke-linecap='round' stroke-linejoin='round'/%3E%3Cpath d='M198 554C198 554 186.5 613.5 178 673C172 715 173 746 173 746' stroke='%230D9488' stroke-width='40' stroke-linecap='round' stroke-linejoin='round'/%3E%3Cpath d='M374.004 602.5C374.004 602.5 410.638 521.896 461.504 445.5C512.371 369.104 577.504 297 641.504 316.5C705.504 336 718.504 430.5 718.504 430.5' stroke='url(%23paint0_linear)' stroke-width='40' stroke-linecap='round' stroke-linejoin='round'/%3E%3Cpath d='M718.504 430.5L828.324 245.586' stroke='%23F97316' stroke-width='40' stroke-linecap='round' stroke-linejoin='round'/%3E%3Cpath d='M857 322.5L828.324 245.586L751.41 274.262' stroke='%23F97316' stroke-width='40' stroke-linecap='round' stroke-linejoin='round'/%3E%3Cdefs%3E%3ClinearGradient id='paint0_linear' x1='439' y1='531' x2='656' y2='350' gradientUnits='userSpaceOnUse'%3E%3Cstop stop-color='%230D9488'/%3E%3Cstop offset='0.758' stop-color='%23F97316'/%3E%3C/linearGradient%3E%3C/defs%3E%3C/svg%3E">
+    <script src="/socket.io/socket.io.js"></script>
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
+</head>
+<body>
+    
+<!-- Navigation -->
+<nav class="navbar navbar-expand-lg navbar-dark custom-navbar">
+    <div class="container">
+        <a class="navbar-brand" href="#" onclick="showHome(); return false;">
+            <img src="assets/images/edutrackerlogo.png" alt="EduTracker Logo" class="logo-img">
+            <span class="edu-text">Edu</span><span class="tracker-text">Tracker</span>
+        </a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ms-auto" id="navMenu">
+    <li class="nav-item"><a class="nav-link" href="#" onclick="showHome(); return false;">Home</a></li>
+    <li class="nav-item" id="studentLoginNav"><a class="nav-link" href="#" onclick="showStudentLogin(); return false;">Student Login</a></li>
+    <li class="nav-item" id="institutionLoginNav"><a class="nav-link" href="#" onclick="showInstitutionLogin(); return false;">Institution Login</a></li>
+    
+    <!-- Student Navbar Items -->
+    <li class="nav-item" id="studentDashboardNav" style="display:none;"><a class="nav-link" href="#" onclick="showStudentDashboardView(); return false;">Dashboard</a></li>
+    <li class="nav-item dropdown" id="studentExamsNav" style="display:none;">
+        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">Results</a>
+        <ul class="dropdown-menu">
+            <li><a class="dropdown-item" href="#" onclick="showStudentExternalsView(); return false;">📘 External (SGPA/CGPA)</a></li>
+            <li><a class="dropdown-item" href="#" onclick="showStudentInternalsView(); return false;">📝 Internal (IA1/IA2)</a></li>
+        </ul>
+    </li>
+    
+    <!-- Institution Navbar Items -->
+    <li class="nav-item" id="dashboardNav" style="display:none;"><a class="nav-link" href="#" onclick="showExternalsView(); return false;">Externals</a></li>
+    <li class="nav-item" id="examTypeNav" style="display:none;"><a class="nav-link" href="#" onclick="showInternalsView(); return false;">Internals</a></li>
+    <li class="nav-item" id="deptNav" style="display:none;"><a class="nav-link" href="#" onclick="showDepartmentsView(); return false;">Departments</a></li>
+    <li class="nav-item" id="analyticsNav" style="display:none;"><a class="nav-link" href="#" onclick="showInstitutionAnalytics(); return false;">Analytics</a></li>
+    
+    <!-- Common -->
+    <li class="nav-item" id="logoutNav" style="display:none;"><a class="nav-link" href="#" onclick="logout(); return false;">Logout</a></li>
+</ul>
+        </div>
+    </div>
+</nav>
+
+    <!-- Main Content Area -->
+    <div id="mainContent">
+        <section class="hero-section">
+            <div class="container">
+                <div class="hero-content">
+                    <h1 class="hero-title">Student Academic Performance Tracker</h1>
+                    <p class="hero-subtitle">Comprehensive platform for institutions to manage and students to track academic performance</p>
+                    <div class="hero-buttons">
+                        <button class="btn btn-primary btn-hero" id="studentActionBtn">Student Portal</button>
+                        <button class="btn btn-outline-light btn-hero" id="institutionActionBtn">Institution Portal</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="features-section">
+            <div class="container">
+                <h2 class="section-title">Why Choose EduTracker?</h2>
+                <div class="row">
+                    <div class="col-md-4 mb-4"><div class="feature-card"><div class="feature-icon">🏫</div><h3>For Institutions</h3><p>Easily manage student records, calculate SGPA/CGPA, and track academic progress.</p></div></div>
+                    <div class="col-md-4 mb-4"><div class="feature-card"><div class="feature-icon">🎓</div><h3>For Students</h3><p>Access your academic performance anytime, anywhere with just your USN.</p></div></div>
+                    <div class="col-md-4 mb-4"><div class="feature-card"><div class="feature-icon">📊</div><h3>Analytics</h3><p>Visual charts, performance trends, and comparative analysis.</p></div></div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- Student Forms -->
+    <div class="container form-container" id="studentFormContainer">
+        <div class="form-wrapper">
+            <h2 class="form-title">Student Portal</h2>
+            <div class="form-tabs"><button class="tab-btn active" id="studentLoginTab">Login</button><button class="tab-btn" id="studentRegisterTab">Register</button></div>
+            <div class="tab-content">
+                <div class="tab-pane active" id="studentLogin">
+                    <form id="studentLoginForm">
+                        <div class="form-group"><label class="form-label">USN</label><input type="text" class="form-control" id="studentUSN" required></div>
+                        <div class="form-group"><label class="form-label">Password</label><input type="password" class="form-control" id="studentPassword" required></div>
+                        <div class="text-end mb-3">
+                            <a href="#" onclick="showForgotPasswordModal('student'); return false;" class="text-muted small">Forgot Password?</a>
+                        </div>
+                        <button type="submit" class="btn btn-primary btn-submit">Login</button>
+                    </form>
+                </div>
+                <div class="tab-pane" id="studentRegister">
+                    <form id="studentRegisterForm">
+                        <div class="form-group"><label class="form-label">USN</label><input type="text" class="form-control" id="newStudentUSN" required></div>
+                        <div class="form-group"><label class="form-label">Full Name</label><input type="text" class="form-control" id="newStudentName" required></div>
+                        <div class="form-group"><label class="form-label">Email</label><input type="email" class="form-control" id="newStudentEmail" required></div>
+                        <div class="form-group"><label class="form-label">Department</label><select class="form-control" id="newStudentDept"><option value="CSE">CSE</option><option value="ECE">ECE</option><option value="ISE">ISE</option><option value="AIML">AIML</option><option value="DS">DS</option></select></div>
+                        <div class="form-group"><label class="form-label">Password</label><input type="password" class="form-control" id="newStudentPassword" required></div>
+                        <button type="submit" class="btn btn-primary btn-submit">Register</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Institution Forms -->
+    <div class="container form-container" id="institutionFormContainer">
+        <div class="form-wrapper">
+            <h2 class="form-title">Institution Portal</h2>
+            <div class="form-tabs"><button class="tab-btn active" id="institutionLoginTab">Login</button><button class="tab-btn" id="institutionRegisterTab">Register</button></div>
+            <div class="tab-content">
+                <div class="tab-pane active" id="institutionLogin">
+                    <form id="institutionLoginForm">
+                        <div class="form-group"><label class="form-label">Institution ID</label><input type="text" class="form-control" id="institutionID" required></div>
+                        <div class="form-group"><label class="form-label">Password</label><input type="password" class="form-control" id="institutionPassword" required></div>
+                        <div class="text-end mb-3">
+                            <a href="#" onclick="showForgotPasswordModal('institution'); return false;" class="text-muted small">Forgot Password?</a>
+                        </div>
+                        <button type="submit" class="btn btn-primary btn-submit">Login</button>
+                    </form>
+                </div>
+                <div class="tab-pane" id="institutionRegister">
+                    <form id="institutionRegisterForm">
+                        <div class="form-group"><label class="form-label">Institution Name</label><input type="text" class="form-control" id="institutionName" required></div>
+                        <div class="form-group"><label class="form-label">Email</label><input type="email" class="form-control" id="institutionEmail" required></div>
+                        <div class="form-group"><label class="form-label">Admin Name</label><input type="text" class="form-control" id="institutionAdmin" required></div>
+                        <div class="form-group"><label class="form-label">Password</label><input type="password" class="form-control" id="newInstitutionPassword" required></div>
+                        <div class="form-group"><label class="form-label">Institution Code (3 letters)</label><input type="text" class="form-control" id="institutionCode" required placeholder="e.g., REV, RVC"></div>
+                        <div class="form-group"><label class="form-label">USN Prefix (3 chars)</label><input type="text" class="form-control" id="usnPrefix" required placeholder="e.g., 1RE, 1RV"></div>
+                        <button type="submit" class="btn btn-primary btn-submit">Register</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Student Dashboard -->
+    <div class="container dashboard-container" id="studentDashboard"></div>
+
+    <!-- Institution Dashboard -->
+    <div class="container dashboard-container" id="institutionDashboard"></div>
+
+    <!-- Student Detail Page (for institution to view/edit student) -->
+    <div class="container dashboard-container" id="studentDetailPage" style="display:none;">
+        <div id="studentDetailContent"></div>
+    </div>
+
+    <!-- External Dashboard (Externals View) -->
+    <div class="container dashboard-container" id="externalDashboard" style="display:none;"></div>
+
+    <!-- Internal Dashboard (Internals View) -->
+    <div class="container dashboard-container" id="internalDashboard" style="display:none;"></div>
+
+    <!-- Departments View -->
+    <div class="container dashboard-container" id="departmentsView" style="display:none;"></div>
+
+    <!-- Student Dashboard Container -->
+    <div class="container dashboard-container" id="studentDashboardContainer" style="display:none;"></div>
+
+    <!-- Student External Records View -->
+    <div class="container dashboard-container" id="studentExternalsView" style="display:none;"></div>
+
+    <!-- Student Internal Records View -->
+    <div class="container dashboard-container" id="studentInternalsView" style="display:none;"></div>
+
+
+    <footer class="footer"><div class="container"><p>&copy; 2026 EduTracker - Student Academic Performance Tracker</p></div></footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="js/script.js"></script>
+    <!-- Dark Mode Toggle Button -->
+<button class="dark-mode-toggle" onclick="toggleDarkMode()" id="darkModeToggle">
+    🌙
+</button>
+
+<script>
+// Dark Mode Toggle Function
+function toggleDarkMode() {
+    const body = document.body;
+    const toggleBtn = document.getElementById('darkModeToggle');
+    
+    body.classList.toggle('dark-mode');
+    
+    if (body.classList.contains('dark-mode')) {
+        localStorage.setItem('darkMode', 'enabled');
+        toggleBtn.innerHTML = '☀️';
+    } else {
+        localStorage.setItem('darkMode', 'disabled');
+        toggleBtn.innerHTML = '🌙';
+    }
+}
+
+// Load Dark Mode Preference
+document.addEventListener('DOMContentLoaded', () => {
+    const darkMode = localStorage.getItem('darkMode');
+    const toggleBtn = document.getElementById('darkModeToggle');
+    
+    if (darkMode === 'enabled') {
+        document.body.classList.add('dark-mode');
+        if (toggleBtn) toggleBtn.innerHTML = '☀️';
+    } else {
+        document.body.classList.remove('dark-mode');
+        if (toggleBtn) toggleBtn.innerHTML = '🌙';
+    }
+});
+</script>
+</body>
+</html>
